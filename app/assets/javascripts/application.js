@@ -2,6 +2,6 @@
 //= require_tree .
 
 function scrollToLastMessage() {
-  const messages = document.getElementById('messages');
+  var messages = document.getElementById('messages');
   messages.children[messages.children.length - 1].scrollIntoView();
 }
