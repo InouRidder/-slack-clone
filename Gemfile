@@ -10,6 +10,9 @@ gem 'puma'
 gem 'rails', '5.1.6'
 gem 'redis'
 
+gem 'sprockets', '>= 3.0.0'
+gem 'sprockets-es6'
+
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.3'
 gem 'font-awesome-sass', '~> 5.0.9'
