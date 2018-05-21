@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   devise_for :users
-  root to: 'index#chat_rooms'
+  root to: 'chat_rooms#index'
   resources :chat_rooms, only: [:show] do
     resources :messages, only: [:create]
   end

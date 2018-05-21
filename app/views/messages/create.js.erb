@@ -1,0 +1,15 @@
+function attachMessage(){
+  const messages = document.getElementById('messages')
+  const message = "<%= j render 'messages/message', message: @message %>"
+  messages.insertAdjacentHTML("beforeend", message)
+}
+
+function clearForm() {
+  const form = document.getElementById('message_content');
+  form.value = "";
+  console.log('hi')
+}
+
+clearForm();
+
+attachMessage();
