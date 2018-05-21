@@ -1,6 +1,7 @@
 function setChatRoom() {
   const chatRoom = document.getElementById('chat-room');
-  chatRoom.innerHTML = "<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>"
+  chatRoom.innerHTML = "<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>";
+  scrollToLastMessage();
 }
 
 setChatRoom();
