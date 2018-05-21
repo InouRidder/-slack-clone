@@ -1,10 +1,18 @@
-<h1>
-  All chats
-</h1>
-<ul>
-  <% @chat_rooms.each do |room| %>
-  <li>
-    <%= link_to room.name, chat_room_path(room) %>
-  </li>
-<% end %>
-</ul>
+<div id="dashboard">
+  <div class="chat-list">
+    <p>
+      <%= current_user.email %>
+    </p>
+    <% @chat_rooms.each do |room| %>
+    <div class="chat">
+      <%= link_to room.name, chat_room_path(room), remote: true %>
+    </div>
+  <% end %>
+  </div>
+
+  <div id="chat-room">
+
+  </div>
+
+
+</div>

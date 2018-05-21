@@ -2,6 +2,7 @@ function attachMessage(){
   const messages = document.getElementById('messages')
   const message = "<%= j render 'messages/message', message: @message %>"
   messages.insertAdjacentHTML("beforeend", message)
+  message.scrollIntoView();
 }
 
 function clearForm() {
