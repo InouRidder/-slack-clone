@@ -1,3 +1,9 @@
+function scrollToLastMessage() {
+  const messages = document.getElementById('messages');
+  if (messages.children.length === 0 ) {return true};
+  messages.children[messages.children.length - 1].scrollIntoView();
+}
+
 function setChatRoom() {
   const chatRoom = document.getElementById('chat-room');
   chatRoom.innerHTML = "<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>";
@@ -16,4 +22,30 @@ App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create(
   }
 )
 
-setChatRoom();
+function appendChat(){
+  const chatList = document.getElementById('chat-list');
+  chatList.insertAdjacentHTML('beforeend', "<div class='chat'><a data-remote='true' href='/chat_rooms/<%= @chat_room.id %>'><%= @chat_room.name %></a></div>");
+}
+
+function eventFire(el, etype){
+  if (el.fireEvent) {
+    el.fireEvent('on' + etype);
+  } else {
+    const evObj = document.createEvent('Events');
+    evObj.initEvent(etype, true, false);
+    el.dispatchEvent(evObj);
+  }
+}
+
+function removeModal() {
+  const modal = document.getElementById('chatRoomModal');
+  eventFire(modal, 'click');
+}
+
+<% if @after_create %>
+  removeModal();
+  setChatRoom();
+  appendChat()
+<% else %>
+  setChatRoom();
+<% end %>

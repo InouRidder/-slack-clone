@@ -2,7 +2,7 @@
   <h1>#<%= chat_room.name %></h1>
 </div>
 <div id="messages">
-  <% chat_room.messages.each do |message| %>
+  <% chat_room.messages.includes(:user).each do |message| %>
     <%= render 'messages/message', message: message %>
   <% end %>
 </div>
@@ -12,5 +12,6 @@
     <%= f.submit %>
   <% end %>
 </div>
+
 
 

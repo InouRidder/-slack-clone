@@ -30,14 +30,15 @@
 
 #messages {
   overflow: scroll;
-  height: 60vh;
+  height: 72vh;
   padding-left: 10px;
 }
 
-.chat-list {
+#chat-list {
   background-color: rgb(40,40,40);
   width: 100px;
   color: white;
   height: 100vh;
   padding: 5px;
+  overflow: scroll;
 }
