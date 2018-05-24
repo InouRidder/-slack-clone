@@ -1,0 +1,16 @@
+function setChatRoom() {
+  const chatRoom = document.getElementById('chat-room');
+  chatRoom.innerHTML = "<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>";
+  scrollToLastMessage();
+}
+
+function appendChat(){
+  const chatList = document.getElementById('private-chat-list');
+  chatList.insertAdjacentHTML('beforeend', "<div class='chat'><a data-remote='true' href='/chat_rooms/<%= @chat_room.id %>'><%= @chat_room.private_chat_name(current_user.first_name) %></a></div>");
+}
+
+setChatRoom();
+<% unless @chat_room.errors.any? %>
+  appendChat();
+<% end %>
+

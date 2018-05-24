@@ -1,28 +1,46 @@
 <div id="dashboard">
-  <div id="chat-list">
+  <div id="nav-list">
     <p>
       <%= current_user.email %>
     </p>
     <h6>
-      Channels
-    <button type="button" data-toggle="modal" data-target="#chatRoomModal">
-        +
-    </button>
-    </h6>
-    <hr>
+    <div class="channel-nav">
+      <a data-toggle="modal" data-target="#allChannels">Channels</a>
+      <a type="button" data-toggle="modal" data-target="#chatRoomModal">
+        <i class="fa fa-plus"></i>
+      </a>
+    </div>
+  </h6>
+  <hr>
+
+  <div id="chat-list">
     <% @chat_rooms.each do |room| %>
     <div class="chat">
       <%= link_to room.name, chat_room_path(room), remote: true %>
     </div>
-  <% end %>
+    <% end %>
   </div>
-
-  <div id="chat-room">
-    Met wie ga je praten?
+  <h6>
+    <div class="channel-nav">
+      <a data-toggle="modal" data-target="#allUsers">Users</a>
+    </div>
+  </h6>
+  <hr>
+  <div id="private-chat-list">
+  <% @private_chats.each do |chat| %>
+    <div class="chat">
+      <%= link_to chat.private_chat_name(current_user.first_name), chat_room_path(chat), remote: true %>
+    </div>
+  <% end %>
   </div>
 </div>
 
-<!-- Modal -->
+<div id="chat-room">
+  Met wie ga je praten?
+</div>
+</div>
+
+<!-- Modals -->
 <div class="modal fade" id="chatRoomModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -30,14 +48,58 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Add a chat room</h4>
       </div>
-        <%= simple_form_for ChatRoom.new, remote: true do |f| %>
+      <%= simple_form_for ChatRoom.new, remote: true do |f| %>
       <div class="modal-body">
-          <%= f.input :name %>
+        <%= f.input :name %>
       </div>
       <div class="modal-footer">
         <%= f.submit  %>
       </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="allChannels" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">All channels</h4>
+      </div>
+      <div class="modal-body chat-list-modal">
+        <% @all_chat_rooms.each do |room| %>
+        <div class="chat-modal">
+          <%= link_to room.name, chat_room_path(room), remote: true %>
+        </div>
         <% end %>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="allUsers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">All channels</h4>
+      </div>
+      <div class="modal-body chat-list-modal">
+        <% @all_users.each do |user| %>
+        <% title = user.first_name ? user.first_name : user.email %>
+        <div class="chat-modal">
+          <%= link_to title, private_chats_path(user_id: user), remote: true, method: :post %>
+        </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+      </div>
     </div>
   </div>
 </div>

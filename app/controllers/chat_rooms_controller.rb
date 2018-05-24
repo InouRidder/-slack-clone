@@ -1,7 +1,10 @@
 class ChatRoomsController < ApplicationController
   def index
-    @chat_rooms = ChatRoom.all
-    @general = ChatRoom.first
+    @all_chat_rooms = ChatRoom.all
+    @chat_rooms = current_user.chat_rooms.where(private: false)
+    @private_chats = current_user.private_chats
+    # ONLY USERS YOUR NOT CHATTING WITH
+    @all_users = User.where.not(id: current_user.id)
   end
 
   def show
@@ -16,6 +19,7 @@ class ChatRoomsController < ApplicationController
   def create
     @chat_room = ChatRoom.new(chat_room_params)
     if @chat_room.save
+      @chat_room.subscriptions.create(user: current_user)
       @message  = Message.new
       @after_create = true
       respond_to do |format|

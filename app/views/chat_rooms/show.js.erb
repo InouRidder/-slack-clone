@@ -38,14 +38,16 @@ function eventFire(el, etype){
 }
 
 function removeModal() {
-  const modal = document.getElementById('chatRoomModal');
-  eventFire(modal, 'click');
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    eventFire(modal, 'click');
+  })
 }
 
 <% if @after_create %>
-  removeModal();
   setChatRoom();
   appendChat()
 <% else %>
   setChatRoom();
 <% end %>
+removeModal();
