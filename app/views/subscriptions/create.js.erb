@@ -6,8 +6,7 @@ function setChatRoom() {
 
 function appendChat(){
   const chatList = document.getElementById('chat-list');
-  console.log(chatList)
-  chatList.insertAdjacentHTML('beforeend', "<div class='chat'><a data-remote='true' href='/chat_rooms/<%= @chat_room.id %>'><%= @chat_room.name %></a></div>");
+  chatList.insertAdjacentHTML('beforeend', "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>");
 }
 
 setChatRoom();

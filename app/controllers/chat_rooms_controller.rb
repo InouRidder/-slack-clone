@@ -4,6 +4,8 @@ class ChatRoomsController < ApplicationController
     @chat_rooms = current_user.chat_rooms.where(private: false)
     @private_chats = current_user.private_chats
     # ONLY USERS YOUR NOT CHATTING WITH
+    # make a privatechat channel?
+    # privatechat controller?
     @all_users = User.where.not(id: current_user.id)
   end
 

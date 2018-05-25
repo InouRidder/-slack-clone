@@ -1,5 +1,5 @@
 <div class="chat-header">
-  <h1>#<%= chat_room.private ? chat_room.private_chat_name(current_user) : chat_room.name %></h1>
+  <h1>#<%= chat_room.private ? chat_room.private_chat_name(current_user.first_name) : chat_room.name %></h1>
 </div>
 <div id="messages">
   <% chat_room.messages.includes(:user).each do |message| %>

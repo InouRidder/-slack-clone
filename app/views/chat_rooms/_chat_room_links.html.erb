@@ -1,0 +1,4 @@
+<div class="chat" data-chat-id="<%= chat_room.id %>">
+  <%= link_to chat_room.name, chat_room_path(chat_room), remote: true, class: 'grey-btn' %>
+  <%= link_to 'X', unsubscribe_chat_room_path(chat_room), remote: true, class: 'grey-btn', method: :delete %>
+</div>

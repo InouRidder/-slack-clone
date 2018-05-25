@@ -4,13 +4,37 @@ function setChatRoom() {
   scrollToLastMessage();
 }
 
+function scrollToLastMessage() {
+  const messages = document.getElementById('messages');
+  if (messages.children.length === 0 ) {return true};
+  messages.children[messages.children.length - 1].scrollIntoView();
+}
+
+
 function appendChat(){
   const chatList = document.getElementById('private-chat-list');
   chatList.insertAdjacentHTML('beforeend', "<div class='chat'><a data-remote='true' href='/chat_rooms/<%= @chat_room.id %>'><%= @chat_room.private_chat_name(current_user.first_name) %></a></div>");
 }
+function eventFire(el, etype){
+  if (el.fireEvent) {
+    el.fireEvent('on' + etype);
+  } else {
+    const evObj = document.createEvent('Events');
+    evObj.initEvent(etype, true, false);
+    el.dispatchEvent(evObj);
+  }
+}
+
+function removeModal() {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    eventFire(modal, 'click');
+  })
+}
 
 setChatRoom();
-<% unless @chat_room.errors.any? %>
+<% unless @chat_room.errors.any? || @is_chatting %>
   appendChat();
 <% end %>
 
+removeModal();

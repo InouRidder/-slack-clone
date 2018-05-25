@@ -15,18 +15,18 @@
 
 
 .chat {
-  padding: 5px 0px;
+  padding: 5px 5px;
   width: 100%;
   font-size: 16px;
   color: rgb(240,240,240) !important;
-  a{
+  display: flex;
+  justify-content: space-between;
+  a {
     text-decoration: none !important;
     color: rgb(240,240,240) !important;
   }
-  &:hover {
-    background-color: rgb(150,150,150);
-  }
 }
+
 
 #messages {
   overflow: scroll;
