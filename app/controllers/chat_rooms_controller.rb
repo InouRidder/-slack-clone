@@ -11,6 +11,8 @@ class ChatRoomsController < ApplicationController
 
   def show
     @chat_room = ChatRoom.find(params[:id])
+    @subscription = @chat_room.user_subscription(current_user)
+    @subscription.visit! if @subscription
     @message = Message.new
     respond_to do |format|
       format.html

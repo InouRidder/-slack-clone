@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524071715) do
+ActiveRecord::Schema.define(version: 20180525070429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "add_last_visit_to_subscriptions", force: :cascade do |t|
+    t.datetime "last_visit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "chat_rooms", force: :cascade do |t|
     t.string "name"
@@ -37,6 +43,7 @@ ActiveRecord::Schema.define(version: 20180524071715) do
     t.bigint "chat_room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "last_visit"
     t.index ["chat_room_id"], name: "index_subscriptions_on_chat_room_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
