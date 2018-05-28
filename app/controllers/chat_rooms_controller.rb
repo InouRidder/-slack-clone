@@ -1,6 +1,6 @@
 class ChatRoomsController < ApplicationController
   def index
-    @all_chat_rooms = ChatRoom.all
+    @all_chat_rooms = ChatRoom.where.not(private: true)
     @chat_rooms = current_user.chat_rooms.where(private: false)
     @private_chats = current_user.private_chats
     @all_users = User.where.not(id: current_user.id)
