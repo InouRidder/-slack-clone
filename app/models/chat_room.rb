@@ -9,22 +9,18 @@ class ChatRoom < ApplicationRecord
 
   def check_for_noticiations(user)
     subscription = user_subscription(user)
-    p subscription
-    p "here!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     if subscription.class == Subscription
-      num = notifications(subscription)
-      p num
-    else
-      0
+      notifications(subscription)
     end
   end
 
   def user_subscription(user)
-    subscriptions.find_by(user: user)
+    r = subscriptions.find_by(user: user)
   end
 
   def notifications(subscription)
-    messages.where('created_at > ?', subscription.last_visit).count
+    count = messages.where('created_at > ?', subscription.last_visit).count
+    count == 0 ? "" : count
   end
 
   def private_chat_name(current_user_first_name)

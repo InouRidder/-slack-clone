@@ -3,9 +3,6 @@ class ChatRoomsController < ApplicationController
     @all_chat_rooms = ChatRoom.all
     @chat_rooms = current_user.chat_rooms.where(private: false)
     @private_chats = current_user.private_chats
-    # ONLY USERS YOUR NOT CHATTING WITH
-    # make a privatechat channel?
-    # privatechat controller?
     @all_users = User.where.not(id: current_user.id)
   end
 
@@ -13,6 +10,8 @@ class ChatRoomsController < ApplicationController
     @chat_room = ChatRoom.find(params[:id])
     @subscription = @chat_room.user_subscription(current_user)
     @subscription.visit! if @subscription
+    p @subscription
+    p DateTime.now
     @message = Message.new
     respond_to do |format|
       format.html

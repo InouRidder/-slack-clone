@@ -5,7 +5,7 @@ class Subscription < ApplicationRecord
   after_create :visit!
 
   def visit!
-    last_visit = DateTime.now
-    save
+    self.last_visit = DateTime.now
+    self.save
   end
 end

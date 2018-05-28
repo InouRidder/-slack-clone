@@ -27,7 +27,7 @@
   <div id="private-chat-list">
   <% @private_chats.each do |chat| %>
     <div class="chat">
-      <%= link_to chat.private_chat_name(current_user.first_name), chat_room_path(chat), remote: true %>
+      <%= render 'chat_room_links', chat_room: chat %>
     </div>
   <% end %>
   </div>
@@ -102,3 +102,26 @@
   </div>
 </div>
 
+<%= content_for(:after_js) do %>
+  <script>
+  App["notifications_channel"] = App.cable.subscriptions.create(
+      { channel: 'NotificationsChannel', user_id: <%= current_user.id %> },
+      {
+        received: (data) => {
+          const chat_room = document.querySelector(`[data-chat-id='${data.chat_room_id}']`);
+          const notifications = chat_room.querySelector('.notifications');
+
+          if (data.chat_room_id !== App.active_room_id) {
+            if (notifications.innerText === "") {
+              notifications.innerText = 0
+              }
+            notifications.innerText = parseInt(notifications.innerText) + data.notifications;
+            }
+          },
+          connected: (data) => {
+            console.log('connected');
+          }
+        }
+    )
+  </script>
+<% end %>
