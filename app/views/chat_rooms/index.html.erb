@@ -106,7 +106,7 @@
   <script>
   App["notifications_channel"] = App.cable.subscriptions.create(
       { channel: 'NotificationsChannel', user_id: <%= current_user.id %> },
-      {
+    	{
         received: (data) => {
           const chat_room = document.querySelector(`[data-chat-id='${data.chat_room_id}']`);
           const notifications = chat_room.querySelector('.notifications');
@@ -119,7 +119,7 @@
             }
           },
           connected: (data) => {
-            console.log('connected');
+            console.log('Your in bro');
           }
         }
     )

@@ -1,6 +1,6 @@
 function scrollToLastMessage() {
   const messages = document.getElementById('messages');
-  if (messages.children.length === 0 ) {return true};
+  if (messages.children.length === 0 ) {return};
   messages.children[messages.children.length - 1].scrollIntoView();
 }
 
@@ -10,6 +10,7 @@ function setChatRoom() {
   scrollToLastMessage();
 }
 
+App.active_room_id = <%= @chat_room.id %>;
 App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create(
     { channel: 'ChatRoomsChannel', chat_room_id: <%= @chat_room.id %> },
     { received: (data) => {
@@ -21,7 +22,7 @@ App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create(
     }
   }
 )
-App.active_room_id = <%= @chat_room.id %>;
+
 
 function appendChat(){
   const chatList = document.getElementById('chat-list');
@@ -45,7 +46,6 @@ function removeModal() {
   })
 }
 
-console.log(App.active_room_id)
 function removeNotifications() {
   const notifications = document.querySelector("[data-chat-id='<%= @chat_room.id %>']").querySelector('.notifications')
   notifications.innerText = "";
@@ -55,8 +55,8 @@ function removeNotifications() {
 <% if @after_create %>
   setChatRoom();
   appendChat()
-<% else %>
-  setChatRoom();
 <% end %>
+
+setChatRoom();
 removeModal();
 removeNotifications();
