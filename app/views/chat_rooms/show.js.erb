@@ -10,7 +10,10 @@ function setChatRoom() {
   scrollToLastMessage();
 }
 
-App.active_room_id = <%= @chat_room.id %>;
+if (App.active_room_id !== undefined ) {
+  App.cable.subscriptions.remove(App[`chat_room_${App.active_room_id}`])
+}
+
 App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create(
     { channel: 'ChatRoomsChannel', chat_room_id: <%= @chat_room.id %> },
     { received: (data) => {
@@ -22,6 +25,8 @@ App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create(
     }
   }
 )
+
+App.active_room_id = <%= @chat_room.id %>;
 
 
 function appendChat(){

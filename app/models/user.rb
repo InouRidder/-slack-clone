@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :subscriptions
   has_many :chat_rooms, through: :subscriptions
+  validates :first_name, :last_name, presence: true
 
   def private_chats
     chat_rooms.where(private: true)

@@ -9,7 +9,8 @@ class Message < ApplicationRecord
         partial: "messages/message",
         locals: { message: self}
       ),
-      current_user_id: user.id
+      current_user_id: user.id,
+      chat_room_id: self.chat_room_id
     })
   end
 
