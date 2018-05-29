@@ -1,14 +1,14 @@
 function attachMessage(){
-  const messages = document.getElementById('messages')
+  const messages = document.querySelector('.messages')
   const message = "<%= j render 'messages/message', message: @message %>"
   messages.insertAdjacentHTML("beforeend", message)
   scrollToLastMessage();
 }
 
-function clearForm() {
-  const form = document.getElementById('message_content');
-  form.value = "";
+function refreshForm() {
+  const form = document.getElementById('new_message');
+  form.innerHTML = "<%= j render 'form', message: Message.new, chat_room: @chat_room %>";
 }
 
-clearForm();
+refreshForm();
 attachMessage();

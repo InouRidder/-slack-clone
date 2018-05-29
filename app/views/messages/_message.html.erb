@@ -1,7 +1,13 @@
 <div class="message">
-  <p>
-    <%= message.content  %>
-    by
-    <%= message.user.email %>
-  </p>
+  <div class="message-title">
+    <div class="message-user">
+      <%= message.user.first_name %>
+    </div>
+    <div class="message-time">
+        <small>
+          <%= message.created_at.strftime('%A, %d %b %Y %l:%M %p') %>
+        </small>
+    </div>
+  </div>
+  <div class="message-content"><%= message.content %></div>
 </div>

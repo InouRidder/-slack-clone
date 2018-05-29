@@ -1,3 +1,27 @@
+if (App.active_room_id !== undefined ) {
+  App.cable.subscriptions.remove(App[`chat_room_${App.active_room_id}`])
+}
+
+App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create({
+    channel: 'ChatRoomsChannel', chat_room_id: <%= @chat_room.id %>
+  },
+  {
+    received: (data) => {
+      if (data.current_user_id !== <%= current_user.id %>) {
+        const messages = document.querySelector('.messages')
+        console.log(data)
+        messages.insertAdjacentHTML("beforeend", data.message_partial)
+        messages.children[messages.children.length -1].scrollIntoView();
+      }
+    },
+    connected: (data) => {
+      console.log('so connected')
+      App.active_room_id = <%= @chat_room.id %>;
+    }
+  }
+)
+
+
 function setChatRoom() {
   const chatRoom = document.getElementById('chat-room');
   chatRoom.innerHTML = "<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>";
@@ -5,7 +29,7 @@ function setChatRoom() {
 }
 
 function scrollToLastMessage() {
-  const messages = document.getElementById('messages');
+  const messages = document.querySelector('.messages');
   if (messages.children.length === 0 ) {return true};
   messages.children[messages.children.length - 1].scrollIntoView();
 }
@@ -13,8 +37,9 @@ function scrollToLastMessage() {
 
 function appendChat(){
   const chatList = document.getElementById('private-chat-list');
-  chatList.insertAdjacentHTML('beforeend', "<div class='chat'><a data-remote='true' href='/chat_rooms/<%= @chat_room.id %>'><%= @chat_room.private_chat_name(current_user.first_name) %></a></div>");
+  chatList.insertAdjacentHTML('beforeend', "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>");
 }
+
 function eventFire(el, etype){
   if (el.fireEvent) {
     el.fireEvent('on' + etype);

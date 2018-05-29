@@ -6,6 +6,11 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :chat_rooms, through: :subscriptions
   validates :first_name, :last_name, presence: true
+  after_create :subscribe_to_general
+
+  def subscribe_to_general
+    ChatRoom.find(1).subscriptions.create(user: self)
+  end
 
   def private_chats
     chat_rooms.where(private: true)

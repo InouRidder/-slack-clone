@@ -1,41 +1,58 @@
 <div id="dashboard">
   <div id="nav-list">
-    <p>
-      <%= current_user.email %>
-    </p>
+    <div class="dropdown">
+        <p class="avatar dropdown-toggle", id="navbar-wagon-menu", data-toggle="dropdown">
+        <%= current_user.first_name %>
+        </p>
+        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+          <li>
+            <%= link_to edit_user_registration_path do %>
+              <i class="fa fa-user"></i> <%= t(".profile", default: "Profile") %>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to destroy_user_session_path, method: :delete do %>
+              <i class="fa fa-sign-out"></i>  <%= t(".sign_out", default: "Log out") %>
+            <% end %>
+          </li>
+        </ul>
+      </div>
     <h6>
-    <div class="channel-nav">
-      <a data-toggle="modal" class="grey-btn" data-target="#allChannels">Channels</a>
-      <a type="button" data-toggle="modal" class="grey-btn" data-target="#chatRoomModal">
-        <i class="fa fa-plus"></i>
-      </a>
-    </div>
-  </h6>
-  <hr>
+      <div class="channel-nav">
+        <a data-toggle="modal" class="grey-btn" data-target="#allChannels">Channels</a>
+        <a type="button" data-toggle="modal" class="grey-btn" data-target="#chatRoomModal">
+          <i class="fa fa-plus"></i>
+        </a>
+      </div>
+    </h6>
+    <hr>
 
-  <div id="chat-list">
-    <% @chat_rooms.each do |chat_room| %>
-    <%= render 'chat_room_links', chat_room: chat_room %>
-    <% end %>
-  </div>
-  <h6>
-    <div class="channel-nav">
-      <a data-toggle="modal" data-target="#allUsers">Users</a>
+    <div id="chat-list">
+      <% @chat_rooms.each do |chat_room| %>
+      <%= render 'chat_room_links', chat_room: chat_room %>
+      <% end %>
     </div>
-  </h6>
-  <hr>
-  <div id="private-chat-list">
-  <% @private_chats.each do |chat| %>
-    <div class="chat">
-      <%= render 'chat_room_links', chat_room: chat %>
+    <h6>
+      <div class="channel-nav">
+        <a data-toggle="modal" data-target="#allUsers">Users</a>
+      </div>
+    </h6>
+    <hr>
+    <div id="private-chat-list">
+      <% @private_chats.each do |chat| %>
+      <div class="chat">
+        <%= render 'chat_room_links', chat_room: chat %>
+      </div>
+      <% end %>
     </div>
-  <% end %>
   </div>
-</div>
 
-<div id="chat-room">
-  Met wie ga je praten?
-</div>
+  <div id="chat-room">
+    <h2>
+      Pick a chat!
+      <!-- TODO: Simulate a click on general -->
+    </h2>
+  </div>
 </div>
 
 <!-- Modals -->
@@ -86,7 +103,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">All channels</h4>
+        <h4 class="modal-title" id="myModalLabel">All users</h4>
       </div>
       <div class="modal-body chat-list-modal">
         <% @all_users.each do |user| %>
@@ -103,25 +120,35 @@
 </div>
 
 <%= content_for(:after_js) do %>
-  <script>
-  App["notifications_channel"] = App.cable.subscriptions.create(
-      { channel: 'NotificationsChannel', user_id: <%= current_user.id %> },
-    	{
-        received: (data) => {
-          const chat_room = document.querySelector(`[data-chat-id='${data.chat_room_id}']`);
-          const notifications = chat_room.querySelector('.notifications');
-
-          if (data.chat_room_id !== App.active_room_id) {
-            if (notifications.innerText === "") {
-              notifications.innerText = 0
-              }
-            notifications.innerText = parseInt(notifications.innerText) + data.notifications;
-            }
-          },
-          connected: (data) => {
-            console.log('Your in bro');
-          }
+<script>
+  App["notification_channel_<%= current_user.id %>"] = App.cable.subscriptions.create(
+    { channel: 'NotificationsChannel', user_id: <%= current_user.id %> },
+    {
+      received: (data) => {
+        if (data.chat_room_name !== undefined) {
+          appendPrivateChat(data.chat_room_id, data.chat_room_name);
         }
+        const chat_room = document.querySelector(`[data-chat-id='${data.chat_room_id}']`);
+        const notifications = chat_room.querySelector('.notifications');
+
+        if (data.chat_room_id !== App.active_room_id) {
+          if (notifications.innerText === "") {
+            notifications.innerText = 0
+          }
+          notifications.innerText = parseInt(notifications.innerText) + data.notifications;
+        }
+      }
+    }
     )
+    function appendPrivateChat(id, name){
+      partial = `<div class='chat' data-chat-id='${id}'>
+      <a class='grey-btn' data-remote='true' href='/chat_rooms/${id}'>${name}</a>
+      <div class='notifications'>
+      </div>
+      <a class='grey-btn' data-remote='true' rel='nofollow' data-method='delete' href='/chat_rooms/${id}/unsubscribe'>X</a>
+    </div>`
+      const chatList = document.getElementById('private-chat-list');
+      chatList.insertAdjacentHTML('beforeend', partial);
+    }
   </script>
-<% end %>
+  <% end %>

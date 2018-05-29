@@ -1,20 +1,22 @@
 <div class="chat-header">
   <h1>#<%= chat_room.private ? chat_room.private_chat_name(current_user.first_name) : chat_room.name %></h1>
 </div>
-<div id="messages">
+<div class="messages">
   <% chat_room.messages.includes(:user).each do |message| %>
     <%= render 'messages/message', message: message %>
   <% end %>
 </div>
 <% if chat_room.subscribed?(current_user) %>
-  <div class="form">
-    <%= simple_form_for [chat_room, message], remote: true do |f| %>
-      <%= f.input :content %>
-      <%= f.submit %>
-    <% end %>
-  </div>
+  <%= render 'messages/form', chat_room: chat_room, message: message %>
 <% else %>
   <%= link_to 'Join channel', subscribe_chat_room_path(chat_room), method: :post, class: "btn btn-primary", remote: true %>
 <% end %>
 
-
+<script>
+  function scrollToLastMessage() {
+    const messages = document.querySelector('.messages');
+    if (messages.children.length === 0 ) {return};
+    messages.children[messages.children.length - 1].scrollIntoView();
+  }
+scrollToLastMessage();
+</script>
