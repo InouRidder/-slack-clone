@@ -1,7 +1,7 @@
 <div id="dashboard">
   <div id="nav-list">
     <div class="dropdown">
-      <p class="avatar dropdown-toggle", id="navbar-wagon-menu", data-toggle="dropdown">
+      <p class="dropdown-toggle chat", id="navbar-wagon-menu", data-toggle="dropdown">
         <%= current_user.first_name %>
       </p>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
@@ -19,30 +19,26 @@
     </div>
     <h6>
       <div class="channel-nav">
-        <a data-toggle="modal" class="grey-btn" data-target="#allChannels">Channels</a>
-        <a type="button" data-toggle="modal" class="grey-btn" data-target="#chatRoomModal">
+        <a data-toggle="modal" data-target="#allChannels"><i>CHANNELS</i></a>
+        <a type="button" data-toggle="modal" data-target="#chatRoomModal">
           <i class="fa fa-plus"></i>
         </a>
       </div>
     </h6>
-    <hr>
 
-    <div id="chat-list">
+    <div id="public-channels" class="chat-list">
       <% @chat_rooms.each do |chat_room| %>
       <%= render 'chat_room_links', chat_room: chat_room %>
       <% end %>
     </div>
     <h6>
       <div class="channel-nav">
-        <a data-toggle="modal" data-target="#allUsers">Users</a>
+        <a data-toggle="modal" data-target="#allUsers"><i>USERS</i></a>
       </div>
     </h6>
-    <hr>
-    <div id="private-chat-list">
+    <div id="private-channels" class="chat-list">
       <% @private_chats.each do |chat| %>
-      <div class="chat">
         <%= render 'chat_room_links', chat_room: chat %>
-      </div>
       <% end %>
     </div>
   </div>
@@ -56,68 +52,12 @@
 </div>
 
 <!-- Modals -->
-<div class="modal fade" id="chatRoomModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add a chat room</h4>
-      </div>
-      <%= simple_form_for ChatRoom.new, remote: true do |f| %>
-      <div class="modal-body">
-        <%= f.input :name %>
-      </div>
-      <div class="modal-footer">
-        <%= f.submit  %>
-      </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<%= render 'form_modal', chat_room: ChatRoom.new %>
 
+<%= render 'chat_rooms/list_modal', all_chat_rooms: @all_chat_rooms %>
 
+<%= render 'users/list_modal', all_users: @all_users %>
 
-<div class="modal fade" id="allChannels" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">All channels</h4>
-      </div>
-      <div class="modal-body chat-list-modal">
-        <% @all_chat_rooms.each do |room| %>
-        <div class="chat-modal">
-          <%= link_to room.name, chat_room_path(room), remote: true %>
-        </div>
-        <% end %>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="allUsers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">All users</h4>
-      </div>
-      <div class="modal-body chat-list-modal">
-        <% @all_users.each do |user| %>
-        <% title = user.first_name ? user.first_name : user.email %>
-        <div class="chat-modal">
-          <%= link_to title, private_chats_path(user_id: user), remote: true, method: :post %>
-        </div>
-        <% end %>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
-</div>
 
 <%= content_for(:after_js) do %>
 <script>
@@ -137,9 +77,12 @@
             notifications.innerText = 0
           }
           notifications.innerText = parseInt(notifications.innerText) + data.notifications;
+          notifications.classList.add('active');
         }
       }
     }
     )
+  const general = document.querySelector(`[data-chat-id='1'] .channel-link`);
+  Chat.eventFire(general, 'click');
   </script>
   <% end %>

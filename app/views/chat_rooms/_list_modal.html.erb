@@ -1,0 +1,19 @@
+<div class="modal fade" id="allChannels" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">All channels</h4>
+      </div>
+      <div class="modal-body chat-list-modal">
+        <% all_chat_rooms.each do |room| %>
+        <div class="chat-modal">
+          <%= link_to room.name, chat_room_path(room), remote: true %>
+        </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

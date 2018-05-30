@@ -1,8 +1,12 @@
 <div class="chat" data-chat-id="<%= chat_room.id %>">
-  <%= link_to chat_room.private ? chat_room.private_chat_name(current_user.first_name) : chat_room.name, chat_room_path(chat_room), remote: true, class: 'grey-btn' %>
+  <div class="chat-title">
+  <%= link_to chat_room.private ? chat_room.private_chat_name(current_user.first_name) : chat_room.name, chat_room_path(chat_room), class: 'channel-link', remote: true %>
     <% notifications = chat_room.check_for_noticiations(current_user) %>
-  <div class="notifications">
-    <%= notifications %>
+    <div class="notifications <%= 'active' if notifications %>">
+      <%= notifications if notifications%>
+    </div>
   </div>
-  <%= link_to 'X', unsubscribe_chat_room_path(chat_room), remote: true, class: 'grey-btn', method: :delete %>
+  <%= link_to unsubscribe_chat_room_path(chat_room), remote: true, class: 'circle-remove', method: :delete do %>
+    <p>x</p>
+  <% end %>
 </div>

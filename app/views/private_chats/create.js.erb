@@ -21,7 +21,7 @@ App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create({
 
 Chat.setChatRoom("<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>");
 <% unless @chat_room.errors.any? || @is_chatting %>
-  Chat.appendPrivateChat( "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>");
+  Chat.appendChat( "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>", true);
 <% end %>
 
 Chat.removeModal();

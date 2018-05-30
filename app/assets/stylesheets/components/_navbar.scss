@@ -3,21 +3,33 @@
   width: 200px;
   color: white;
   height: 100vh;
-  padding: 5px;
+  padding: 5px 0px;
   overflow: scroll;
+}
+
+#user-nav {
+  padding: 20px 10px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .channel-nav {
   display: flex;
   justify-content: space-between;
   color: white;
+  padding: 10px;
+  width: 100%;
+  &:hover {
+    opacity: 0.9;
+    background-color: rgb(150,150,150);
+    color: rgb(240,240,240);
+  }
   a {
     color: white;
     text-decoration: none;
-    padding: 6px 2px;
   }
   a:hover {
-    background-color: rgba(220,220,220, 0.9);
     cursor: pointer;
   }
 }

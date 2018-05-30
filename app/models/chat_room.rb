@@ -20,7 +20,7 @@ class ChatRoom < ApplicationRecord
 
   def notifications(subscription)
     count = messages.where('created_at > ?', subscription.last_visit).count
-    count == 0 ? "" : count
+    count == 0 ? nil : count
   end
 
   def private_chat_name(current_user_first_name)

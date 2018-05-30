@@ -6,7 +6,7 @@
   border: 1px solid #ececec;
   border-top: none;
   border-bottom-width: 0;
-  max-height: calc(100vh - 70px - 45px - 61px - 30px);
+  max-height: calc(100vh - 30px - 45px - 61px - 30px);
   overflow: scroll;
 }
 
@@ -21,6 +21,12 @@
       background-color: #F2F9FC;
     }
   }
+}
+
+#messages {
+  overflow: scroll;
+  height: 72vh;
+  padding-left: 10px;
 }
 
 .message-title {

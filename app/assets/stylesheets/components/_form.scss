@@ -10,6 +10,12 @@ input.form-control {
   }
 }
 
-#form {
-  padding: 10px;
+#new_message {
+  position: fixed;
+  bottom: 10px;
+  right: 2%;
+  width: calc(100% - 200px);
+  #message_content {
+    width: 100%;
+  }
 }

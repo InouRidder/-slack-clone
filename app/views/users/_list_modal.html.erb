@@ -1,0 +1,21 @@
+
+<div class="modal fade" id="allUsers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">All users</h4>
+      </div>
+      <div class="modal-body chat-list-modal">
+        <% all_users.each do |user| %>
+        <% title = user.first_name ? user.first_name : user.email %>
+        <div class="chat-modal">
+          <%= link_to title, private_chats_path(user_id: user), remote: true, method: :post %>
+        </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

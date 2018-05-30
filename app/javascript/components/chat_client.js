@@ -8,11 +8,12 @@ class Chat {
   setChatRoom(partial)  {
     const chatRoom = document.getElementById('chat-room');
     chatRoom.innerHTML = partial;
-    scrollToLastMessage();
+    this.scrollToLastMessage();
   }
 
-  appendChat(partial) {
-    const chatList = document.getElementById('chat-list');
+  appendChat(partial, isPrivate) {
+    const chatIdentifier = isPrivate ? 'private-channels' : 'public-channels'
+    const chatList = document.getElementById(chatIdentifier);
     chatList.insertAdjacentHTML('beforeend', partial);
   }
 
@@ -29,19 +30,20 @@ class Chat {
   removeModal() {
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
-      eventFire(modal, 'click');
+      this.eventFire(modal, 'click');
     })
   }
 
   removeNotifications(id) {
-    const notifications = document.querySelector(`[data-chat-id='${id}']`).querySelector('.notifications')
+    const notifications = document.querySelector(`[data-chat-id='${id}'] > .chat-title > .notifications`)
+    notifications.classList.remove('active');
     notifications.innerText = "";
   }
 
   attachMessage(newMessage) {
     const messages = document.querySelector('.messages')
     messages.insertAdjacentHTML("beforeend", newMessage)
-    scrollToLastMessage();
+    this.scrollToLastMessage();
   }
 
   refreshForm(newForm) {
@@ -56,7 +58,7 @@ class Chat {
     </div>
     <a class='grey-btn' data-remote='true' rel='nofollow' data-method='delete' href='/chat_rooms/${id}/unsubscribe'>X</a>
     </div>`
-    const chatList = document.getElementById('private-chat-list');
+    const chatList = document.getElementById('private-channels');
     chatList.insertAdjacentHTML('beforeend', partial);
   }
 }
