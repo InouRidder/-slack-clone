@@ -61,8 +61,4 @@ class Chat {
   }
 }
 
-Chat.scrollToLastMessage = function() {
-  console.log("fu");
-}
-
 export { Chat }

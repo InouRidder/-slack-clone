@@ -9,13 +9,11 @@ App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create({
     received: (data) => {
       if (data.current_user_id !== <%= current_user.id %>) {
         const messages = document.querySelector('.messages')
-        console.log(data)
         messages.insertAdjacentHTML("beforeend", data.message_partial)
         messages.children[messages.children.length -1].scrollIntoView();
       }
     },
     connected: (data) => {
-      console.log('so connected')
       App.active_room_id = <%= @chat_room.id %>;
     }
   }
