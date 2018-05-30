@@ -15,12 +15,6 @@ ActiveRecord::Schema.define(version: 20180525070429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "add_last_visit_to_subscriptions", force: :cascade do |t|
-    t.datetime "last_visit"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "chat_rooms", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false

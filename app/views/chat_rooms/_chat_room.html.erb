@@ -11,12 +11,3 @@
 <% else %>
   <%= link_to 'Join channel', subscribe_chat_room_path(chat_room), method: :post, class: "btn btn-primary", remote: true %>
 <% end %>
-
-<script>
-  function scrollToLastMessage() {
-    const messages = document.querySelector('.messages');
-    if (messages.children.length === 0 ) {return};
-    messages.children[messages.children.length - 1].scrollIntoView();
-  }
-scrollToLastMessage();
-</script>

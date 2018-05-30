@@ -21,45 +21,9 @@ App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create({
   }
 )
 
-
-function setChatRoom() {
-  const chatRoom = document.getElementById('chat-room');
-  chatRoom.innerHTML = "<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>";
-  scrollToLastMessage();
-}
-
-function scrollToLastMessage() {
-  const messages = document.querySelector('.messages');
-  if (messages.children.length === 0 ) {return true};
-  messages.children[messages.children.length - 1].scrollIntoView();
-}
-
-
-function appendChat(){
-  const chatList = document.getElementById('private-chat-list');
-  chatList.insertAdjacentHTML('beforeend', "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>");
-}
-
-function eventFire(el, etype){
-  if (el.fireEvent) {
-    el.fireEvent('on' + etype);
-  } else {
-    const evObj = document.createEvent('Events');
-    evObj.initEvent(etype, true, false);
-    el.dispatchEvent(evObj);
-  }
-}
-
-function removeModal() {
-  const modals = document.querySelectorAll('.modal');
-  modals.forEach(modal => {
-    eventFire(modal, 'click');
-  })
-}
-
-setChatRoom();
+Chat.setChatRoom("<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>");
 <% unless @chat_room.errors.any? || @is_chatting %>
-  appendChat();
+  Chat.appendPrivateChat( "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>");
 <% end %>
 
-removeModal();
+Chat.removeModal();

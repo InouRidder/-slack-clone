@@ -1,9 +1,4 @@
 import "bootstrap";
+import { Chat } from '../components/chat_client';
 
-function scrollToLastMessage() {
-  const messages = document.getElementById('messages');
-  if (messages.children.length === 0 ) {return true};
-  messages.children[messages.children.length - 1].scrollIntoView();
-}
-
-export { scrollToLastMessage }
+global.Chat = new Chat;
