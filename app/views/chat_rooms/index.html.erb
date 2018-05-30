@@ -1,22 +1,22 @@
 <div id="dashboard">
   <div id="nav-list">
     <div class="dropdown">
-        <p class="avatar dropdown-toggle", id="navbar-wagon-menu", data-toggle="dropdown">
+      <p class="avatar dropdown-toggle", id="navbar-wagon-menu", data-toggle="dropdown">
         <%= current_user.first_name %>
-        </p>
-        <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
-          <li>
-            <%= link_to edit_user_registration_path do %>
-              <i class="fa fa-user"></i> <%= t(".profile", default: "Profile") %>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to destroy_user_session_path, method: :delete do %>
-              <i class="fa fa-sign-out"></i>  <%= t(".sign_out", default: "Log out") %>
-            <% end %>
-          </li>
-        </ul>
-      </div>
+      </p>
+      <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+        <li>
+          <%= link_to edit_user_registration_path do %>
+          <i class="fa fa-user"></i> <%= t(".profile", default: "Profile") %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to destroy_user_session_path, method: :delete do %>
+          <i class="fa fa-sign-out"></i>  <%= t(".sign_out", default: "Log out") %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
     <h6>
       <div class="channel-nav">
         <a data-toggle="modal" class="grey-btn" data-target="#allChannels">Channels</a>
@@ -128,6 +128,7 @@
         if (data.chat_room_name !== undefined) {
           appendPrivateChat(data.chat_room_id, data.chat_room_name);
         }
+
         const chat_room = document.querySelector(`[data-chat-id='${data.chat_room_id}']`);
         const notifications = chat_room.querySelector('.notifications');
 
@@ -140,15 +141,5 @@
       }
     }
     )
-    function appendPrivateChat(id, name){
-      partial = `<div class='chat' data-chat-id='${id}'>
-      <a class='grey-btn' data-remote='true' href='/chat_rooms/${id}'>${name}</a>
-      <div class='notifications'>
-      </div>
-      <a class='grey-btn' data-remote='true' rel='nofollow' data-method='delete' href='/chat_rooms/${id}/unsubscribe'>X</a>
-    </div>`
-      const chatList = document.getElementById('private-chat-list');
-      chatList.insertAdjacentHTML('beforeend', partial);
-    }
   </script>
   <% end %>

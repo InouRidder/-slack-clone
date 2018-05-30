@@ -1,16 +1,5 @@
-function setChatRoom() {
-  const chatRoom = document.getElementById('chat-room');
-  chatRoom.innerHTML = "<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>";
-  scrollToLastMessage();
-}
-
-function appendChat(){
-  const chatList = document.getElementById('chat-list');
-  chatList.insertAdjacentHTML('beforeend', "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>");
-}
-
-setChatRoom();
+Chat.setChatRoom("<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>");
 <% unless @subscription.errors.any? %>
-  appendChat();
+  Chat.appendChat("<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>");
 <% end %>
 
