@@ -5,7 +5,7 @@ class Notifyer {
   }
 
   setWatchList() {
-    const chats = document.querySelectorAll('.chats')
+    const chats = document.querySelectorAll('.chat')
       chats.forEach(chat => {
         this.addToWatchList(chat)
     })
@@ -15,8 +15,12 @@ class Notifyer {
     this.watchList[chat.dataset.chatId] = chat
   }
 
+  stopWatching(id) {
+    delete this.watchList[id]
+  }
+
   chatIncludedInList(id) {
-    return Object.keys(this.watchList).includes(id);
+    return Object.keys(this.watchList).includes(id.toString());
   }
 
   addNewChat(id, name) {
@@ -27,6 +31,9 @@ class Notifyer {
   }
 
   notify(chat) {
+
+    if (parseInt(chat.dataset.chatId) === App.active_room_id) return;
+
     const notifications = chat.querySelector('.notifications');
     if (notifications.innerText === "") {
       notifications.innerText = 1
@@ -37,14 +44,15 @@ class Notifyer {
   }
 
   receive(data) {
-    // Do not notify if the active room is the one receiving the notification
-    if (data.chat_room_id === App.active_room_id) return;
     // Add a notification if the list is included
     if (this.chatIncludedInList(data.chat_room_id)) {
+    // Do not notify if the active room is the one receiving the notification
+      // if (data.chat_room_id === App.active_room_id) return;
       this.notify(this.watchList[data.chat_room_id])
     } else {
     // Append the chat to the DOM
       const newChat = this.addNewChat(data.chat_room_id, data.chat_room_name);
+      // if (data.chat_room_id === App.active_room_id) return;
     // Notify the new Chat
       this.notify(newChat)
     }

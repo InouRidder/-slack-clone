@@ -52,11 +52,16 @@ class Chat {
   }
 
   appendPrivateChat(id, name) {
-    const partial = `<div class='chat' data-chat-id='${id}'>
-    <a class='grey-btn' data-remote='true' href='/chat_rooms/${id}'>${name}</a>
-    <div class='notifications'>
-    </div>
-    <a class='grey-btn' data-remote='true' rel='nofollow' data-method='delete' href='/chat_rooms/${id}/unsubscribe'>X</a>
+    const partial = `
+    <div class="chat" data-chat-id="${id}">
+      <div class="chat-title">
+      <a class="channel-link" data-remote="true" href="/chat_rooms/${id}">${name}</a>
+        <div class="notifications ">
+        </div>
+      </div>
+      <a class="circle-remove" data-remote="true" rel="nofollow" data-method="delete" href="/chat_rooms/${id}/unsubscribe">
+      <p>x</p>
+      </a>
     </div>`
     const chatList = document.getElementById('private-channels');
     chatList.insertAdjacentHTML('beforeend', partial);
