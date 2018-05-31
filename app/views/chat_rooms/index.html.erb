@@ -1,7 +1,7 @@
 <div id="dashboard">
   <div id="nav-list">
     <div class="dropdown">
-      <p class="dropdown-toggle chat", id="navbar-wagon-menu", data-toggle="dropdown">
+      <p class="dropdown-toggle", id="navbar-wagon-menu", data-toggle="dropdown">
         <%= current_user.first_name %>
       </p>
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
@@ -60,29 +60,16 @@
 
 
 <%= content_for(:after_js) do %>
-<script>
-  App["notification_channel_<%= current_user.id %>"] = App.cable.subscriptions.create(
-    { channel: 'NotificationsChannel', user_id: <%= current_user.id %> },
-    {
-      received: (data) => {
-        if (data.chat_room_name !== undefined) {
-          appendPrivateChat(data.chat_room_id, data.chat_room_name);
-        }
-
-        const chat_room = document.querySelector(`[data-chat-id='${data.chat_room_id}']`);
-        const notifications = chat_room.querySelector('.notifications');
-
-        if (data.chat_room_id !== App.active_room_id) {
-          if (notifications.innerText === "") {
-            notifications.innerText = 0
+  <script>
+    App["notification_channel_<%= current_user.id %>"] = App.cable.subscriptions.create(
+      { channel: 'NotificationsChannel', user_id: <%= current_user.id %> },
+        {
+          received: (data) => {
+            Notifyer.receive(data);
           }
-          notifications.innerText = parseInt(notifications.innerText) + data.notifications;
-          notifications.classList.add('active');
         }
-      }
-    }
-    )
-  const general = document.querySelector(`[data-chat-id='1'] .channel-link`);
-  Chat.eventFire(general, 'click');
+      )
+    const general = document.querySelector(`[data-chat-id='1'] .channel-link`);
+    Chat.eventFire(general, 'click');
   </script>
-  <% end %>
+<% end %>

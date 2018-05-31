@@ -22,8 +22,9 @@ class Message < ApplicationRecord
       chat_room_id: chat_room_id
     }
 
-    if chat_room.private && chat_room.messages.count == 1
+    if chat_room.private # && chat_room.messages.count == 1
       object[:chat_room_name] = user.first_name
+      object[:private] = true
     end
 
     chat_room.users.each do |user|
