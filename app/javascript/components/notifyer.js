@@ -47,7 +47,7 @@ class Notifyer {
       const newChat = Chat.appendPrivateChat(data.chat_room_id, data.chat_room_name);
       // if (data.chat_room_id === App.active_room_id) return;
     // Notify the new Chat
-      this.notify(newChat)
+      this.notify(this.watchList[data.chat_room_id])
     }
   }
 }
