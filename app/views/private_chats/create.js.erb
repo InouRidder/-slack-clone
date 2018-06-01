@@ -1,22 +1,4 @@
-if (App.active_room_id !== undefined ) {
-  App.cable.subscriptions.remove(App[`chat_room_${App.active_room_id}`])
-}
-
-App['chat_room_<%= @chat_room.id %>'] = App.cable.subscriptions.create({
-    channel: 'ChatRoomsChannel', chat_room_id: <%= @chat_room.id %>
-  },
-  {
-    received: (data) => {
-      if (data.current_user_id !== <%= current_user.id %>) {
-        Chat.attachMessage(data.message_partial);
-      }
-    },
-    connected: (data) => {
-      App.active_room_id = <%= @chat_room.id %>;
-    }
-  }
-)
-
+Chat.register(<%= @chat_room.id %>, <%= current_user.id %>)
 Chat.setChatRoom("<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>");
 <% unless @chat_room.errors.any? || @is_chatting %>
   Chat.appendChat( "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>", true);
