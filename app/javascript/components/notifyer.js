@@ -23,16 +23,9 @@ class Notifyer {
     return Object.keys(this.watchList).includes(id.toString());
   }
 
-  addNewChat(id, name) {
-    Chat.appendPrivateChat(id, name);
-    const chat = document.querySelector(`[data-chat-id='${id}']`);
-    this.addToWatchList(chat);
-    return chat;
-  }
-
   notify(chat) {
 
-    if (parseInt(chat.dataset.chatId) === App.active_room_id) return;
+    if (parseInt(chat.dataset.chatId) === Chat.activeRoom.id) return;
 
     const notifications = chat.querySelector('.notifications');
     if (notifications.innerText === "") {
@@ -51,7 +44,7 @@ class Notifyer {
       this.notify(this.watchList[data.chat_room_id])
     } else {
     // Append the chat to the DOM
-      const newChat = this.addNewChat(data.chat_room_id, data.chat_room_name);
+      const newChat = Chat.appendPrivateChat(data.chat_room_id, data.chat_room_name);
       // if (data.chat_room_id === App.active_room_id) return;
     // Notify the new Chat
       this.notify(newChat)

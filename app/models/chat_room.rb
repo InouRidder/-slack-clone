@@ -15,7 +15,7 @@ class ChatRoom < ApplicationRecord
   end
 
   def user_subscription(user)
-    r = subscriptions.find_by(user: user)
+    subscriptions.find_by(user: user)
   end
 
   def notifications(subscription)

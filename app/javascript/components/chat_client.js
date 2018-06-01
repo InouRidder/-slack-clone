@@ -1,4 +1,30 @@
 class Chat {
+  constructor() {
+    this.activeRoom;
+  }
+
+  register(chatId, userId) {
+
+    if (this.activeRoom !== undefined ) {
+      App.cable.subscriptions.remove(this.activeRoom)
+    }
+
+    this.activeRoom = App.cable.subscriptions.create({
+      channel: 'ChatRoomsChannel', chat_room_id: chatId
+    },
+    {
+      received: (data) => {
+        if (data.current_user_id !== userId) {
+          this.attachMessage(data.message_partial);
+        }
+      },
+      connected: (data) => {
+        this.activeRoom.id = chatId;
+      }
+    }
+    )
+  }
+
   scrollToLastMessage() {
     const messages = document.querySelector('.messages');
     if (messages.children.length === 0 ) {return};
@@ -56,14 +82,14 @@ class Chat {
   appendPrivateChat(id, name) {
     const partial = `
     <div class="chat" data-chat-id="${id}">
-      <div class="chat-title">
-      <a class="channel-link" data-remote="true" href="/chat_rooms/${id}">${name}</a>
-        <div class="notifications ">
-        </div>
-      </div>
-      <a class="circle-remove" data-remote="true" rel="nofollow" data-method="delete" href="/chat_rooms/${id}/unsubscribe">
-      <p>x</p>
-      </a>
+    <div class="chat-title">
+    <a class="channel-link" data-remote="true" href="/chat_rooms/${id}">${name}</a>
+    <div class="notifications ">
+    </div>
+    </div>
+    <a class="circle-remove" data-remote="true" rel="nofollow" data-method="delete" href="/chat_rooms/${id}/unsubscribe">
+    <p>x</p>
+    </a>
     </div>`
     this.appendChat(partial, true)
   }
