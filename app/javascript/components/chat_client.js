@@ -15,6 +15,8 @@ class Chat {
     const chatIdentifier = isPrivate ? 'private-channels' : 'public-channels'
     const chatList = document.getElementById(chatIdentifier);
     chatList.insertAdjacentHTML('beforeend', partial);
+    const chat = chatList.children[chatList.children.length - 1 ];
+    Notifyer.addToWatchList(chat);
   }
 
   eventFire(el, etype) {
@@ -63,8 +65,7 @@ class Chat {
       <p>x</p>
       </a>
     </div>`
-    const chatList = document.getElementById('private-channels');
-    chatList.insertAdjacentHTML('beforeend', partial);
+    this.appendChat(partial, true)
   }
 }
 
