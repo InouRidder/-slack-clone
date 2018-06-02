@@ -3,6 +3,10 @@ class ChatRoom < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions
 
+  def private_partner(current_user)
+    users.find {|user| user != current_user }
+  end
+
   def subscribed?(user)
     subscriptions.exists?(user_id: user.id)
   end

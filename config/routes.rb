@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     member do
       post 'subscribe', to: 'subscriptions#create'
       delete 'unsubscribe', to: 'subscriptions#destroy'
+      patch 'set_last_visit'
     end
     resources :messages, only: [:create]
   end
