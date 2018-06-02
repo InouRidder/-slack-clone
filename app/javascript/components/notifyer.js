@@ -2,7 +2,19 @@ class Notifyer {
   constructor() {
     this.watchList = {};
     this.setWatchList();
+    this.online = [];
   }
+
+  register(id) {
+    App[`notification_channel_${id}`] = App.cable.subscriptions.create(
+      { channel: 'NotificationsChannel', user_id: id },
+        {
+          received: (data) => {
+            this.receive(data);
+          }
+        }
+      )
+    }
 
   setWatchList() {
     const chats = document.querySelectorAll('.chat')
@@ -36,8 +48,27 @@ class Notifyer {
     notifications.classList.add('active');
   }
 
+  updateOnline(onlineArray) {
+    this.online = onlineArray;
+    Object.values(this.watchList).forEach(chat => {
+      const userStatus = chat.querySelector('.user-status');
+      if (userStatus) {
+        if (this.online.includes(parseInt(chat.dataset.userId))) {
+          userStatus.classList.replace('grey', 'green')
+        } else {
+          userStatus.classList.replace('green', 'grey')
+        }
+      }
+    })
+  }
+
   receive(data) {
     // Add a notification if the list is included
+    if (data.onlineUpdate) {
+      this.updateOnline(data.onlineUpdate);
+      return;
+    }
+
     if (this.chatIncludedInList(data.chat_room_id)) {
     // Do not notify if the active room is the one receiving the notification
       // if (data.chat_room_id === App.active_room_id) return;

@@ -4,13 +4,12 @@ class Chat {
   }
 
   register(chatId, userId) {
-
     if (this.activeRoom !== undefined ) {
       App.cable.subscriptions.remove(this.activeRoom)
     }
 
     this.activeRoom = App.cable.subscriptions.create({
-      channel: 'ChatRoomsChannel', chat_room_id: chatId
+      channel: 'ChatRoomsChannel', chat_room_id: chatId, user_id: userId
     },
     {
       received: (data) => {
@@ -63,7 +62,7 @@ class Chat {
   }
 
   removeNotifications(id) {
-    const notifications = document.querySelector(`[data-chat-id='${id}'] > .chat-title > .notifications`)
+    const notifications = document.querySelector(`[data-chat-id='${id}']`).querySelector(`.notifications`)
     notifications.classList.remove('active');
     notifications.innerText = "";
   }
