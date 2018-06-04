@@ -13,7 +13,7 @@ class Chat {
     },
     {
       received: (data) => {
-        if (data.current_user_id !== userId) {
+      if (data.current_user_id !== userId) {
           this.attachMessage(data.message_partial);
         }
       },
@@ -79,26 +79,8 @@ class Chat {
   }
 
   appendPrivateChat(data) {
-    const chatId = data.chat_room_id
-    const userId = data.user_id
-    const chatName = data.chat_room_name
-    const partial = `
-    <div class="chat private-chat-title" data-chat-id="${chatId}" data-user-id="${userId}">
-      <div class="user-title">
-        <div class="user-status circle grey">
-        </div>
-        <div class="chat-title">
-        <a class="channel-link" data-remote="true" href="/chat_rooms/${chatId}">${chatName}</a>
-        </div>
-      </div>
-      <div class="notifications ">
-
-      </div>
-      <a class="circle-remove" data-remote="true" rel="nofollow" data-method="delete" href="/chat_rooms/${chatId}/unsubscribe">
-        <p>x</p>
-      </a>
-    </div>`
-    this.appendChat(partial, true)
+    const userLink = document.querySelector(`[data-user-id='${data.user_id}']`)
+    this.eventFire(userLink ,'click');
   }
 }
 
