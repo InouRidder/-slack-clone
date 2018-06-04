@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :set_chat_room
+
   def create
     @message = Message.new(message_params)
     @message.user = current_user

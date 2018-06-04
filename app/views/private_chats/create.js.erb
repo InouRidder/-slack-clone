@@ -1,7 +1,6 @@
 Chat.register(<%= @chat_room.id %>, <%= current_user.id %>)
 Chat.setChatRoom("<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>");
-<% unless @chat_room.errors.any? || @is_chatting %>
+if (Notifyer.watchList[<%= @chat_room.id %>] === undefined) {
   Chat.appendChat( "<%= j render 'chat_rooms/chat_room_links', chat_room: @chat_room %>", true);
-<% end %>
-
+}
 Chat.removeModal();
