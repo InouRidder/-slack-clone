@@ -9,7 +9,11 @@ class User < ApplicationRecord
   after_create :subscribe_to_general
 
   def subscribe_to_general
-    ChatRoom.find(1).subscriptions.create(user: self)
+    ChatRoom.first.subscriptions.create(user: self)
+  end
+
+  def active_private_chats
+    chat_rooms.where("private = 'true' AND is_watching = 'true'")
   end
 
   def private_chats

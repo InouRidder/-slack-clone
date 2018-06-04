@@ -9,7 +9,11 @@ class SubscriptionsController < ApplicationController
 
   def destroy
     @subscription = @chat_room.subscriptions.find_by(user_id: current_user.id)
-    @subscription.destroy unless @chat_room.private
+    if @chat_room.private
+      @subscription.stop_watching!
+    else
+      @subscription.destroy
+    end
   end
 
   private

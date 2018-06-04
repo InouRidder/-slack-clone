@@ -13,7 +13,7 @@ class ChatRoom < ApplicationRecord
 
   def check_for_noticiations(user)
     subscription = user_subscription(user)
-    if subscription.class == Subscription
+    if subscriptions
       notifications(subscription)
     end
   end
@@ -24,6 +24,9 @@ class ChatRoom < ApplicationRecord
 
   def notifications(subscription)
     count = messages.where('created_at > ?', subscription.last_visit).count
+    p count
+    p subscription
+    p messages
     count == 0 ? nil : count
   end
 

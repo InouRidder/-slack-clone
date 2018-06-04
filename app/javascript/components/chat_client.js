@@ -78,17 +78,25 @@ class Chat {
     form.innerHTML = newForm;
   }
 
-  appendPrivateChat(id, name) {
+  appendPrivateChat(data) {
+    const chatId = data.chat_room_id
+    const userId = data.user_id
+    const chatName = data.chat_room_name
     const partial = `
-    <div class="chat" data-chat-id="${id}">
-    <div class="chat-title">
-    <a class="channel-link" data-remote="true" href="/chat_rooms/${id}">${name}</a>
-    <div class="notifications ">
-    </div>
-    </div>
-    <a class="circle-remove" data-remote="true" rel="nofollow" data-method="delete" href="/chat_rooms/${id}/unsubscribe">
-    <p>x</p>
-    </a>
+    <div class="chat private-chat-title" data-chat-id="${chatId}" data-user-id="${userId}">
+      <div class="user-title">
+        <div class="user-status circle grey">
+        </div>
+        <div class="chat-title">
+        <a class="channel-link" data-remote="true" href="/chat_rooms/${chatId}">${chatName}</a>
+        </div>
+      </div>
+      <div class="notifications ">
+
+      </div>
+      <a class="circle-remove" data-remote="true" rel="nofollow" data-method="delete" href="/chat_rooms/${chatId}/unsubscribe">
+        <p>x</p>
+      </a>
     </div>`
     this.appendChat(partial, true)
   }

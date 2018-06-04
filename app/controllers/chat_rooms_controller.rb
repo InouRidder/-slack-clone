@@ -3,7 +3,7 @@ class ChatRoomsController < ApplicationController
     @all_chat_rooms = ChatRoom.where.not(private: true)
     @general = ChatRoom.first
     @chat_rooms = current_user.chat_rooms.where(private: false)
-    @private_chats = current_user.private_chats
+    @private_chats = current_user.active_private_chats
     @all_users = User.where.not(id: current_user.id)
   end
 

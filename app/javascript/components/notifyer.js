@@ -36,9 +36,9 @@ class Notifyer {
   }
 
   notify(chat) {
-
-    if (parseInt(chat.dataset.chatId) === Chat.activeRoom.id) return;
-
+    if (parseInt(chat.dataset.chatId) === Chat.activeRoom.id) {
+      return
+    };
     const notifications = chat.querySelector('.notifications');
     if (notifications.innerText === "") {
       notifications.innerText = 1
@@ -65,6 +65,7 @@ class Notifyer {
   receive(data) {
     // Add a notification if the list is included
     if (data.onlineUpdate) {
+      // If its an online notification update, run the update only
       this.updateOnline(data.onlineUpdate);
       return;
     }
@@ -75,7 +76,7 @@ class Notifyer {
       this.notify(this.watchList[data.chat_room_id])
     } else {
     // Append the chat to the DOM
-      const newChat = Chat.appendPrivateChat(data.chat_room_id, data.chat_room_name);
+      const newChat = Chat.appendPrivateChat(data);
       // if (data.chat_room_id === App.active_room_id) return;
     // Notify the new Chat
       this.notify(this.watchList[data.chat_room_id])
