@@ -28,10 +28,8 @@ class Message < ApplicationRecord
       object[:private] = true
     end
 
-    chat_room.users.each do |user|
-      unless user == self.user
-        ActionCable.server.broadcast("notification_channel_#{user.id}", object)
-      end
+    chat_room.users.where.not(id: user.id).each do |user|
+      ActionCable.server.broadcast("notification_channel_#{user.id}", object)
     end
   end
 end

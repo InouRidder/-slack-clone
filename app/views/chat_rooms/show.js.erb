@@ -6,6 +6,10 @@ Chat.register(<%= @chat_room.id %>, <%= current_user.id %>)
 
 Chat.setChatRoom("<%= j render 'chat_rooms/chat_room', chat_room: @chat_room, message: @message %>");
 Chat.removeModal();
-Chat.removeNotifications(<%= @chat_room.id %>);
+
+<% if @subscription %>
+  Chat.removeNotifications(<%= @chat_room.id %>);
+<% end %>
+
 Chat.scrollToLastMessage();
 

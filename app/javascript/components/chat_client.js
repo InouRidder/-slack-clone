@@ -5,7 +5,7 @@ class Chat {
 
   register(chatId, userId) {
     if (this.activeRoom !== undefined ) {
-      App.cable.subscriptions.remove(this.activeRoom)
+      App.cable.subscriptions.remove(this.activeRoom);
     }
 
     this.activeRoom = App.cable.subscriptions.create({
