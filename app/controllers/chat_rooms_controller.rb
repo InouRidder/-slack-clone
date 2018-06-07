@@ -5,6 +5,10 @@ class ChatRoomsController < ApplicationController
     @chat_rooms = current_user.chat_rooms.where(private: false)
     @private_chats = current_user.active_private_chats
     @all_users = User.where.not(id: current_user.id)
+    respond_to do |format|
+      format.json { render json: ChatRoom.all.to_json }
+      format.html
+    end
   end
 
   def show

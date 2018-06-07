@@ -2,9 +2,19 @@ class ChatRoom < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions
+  # after_create :broadcast_channel
 
   def private_partner(current_user)
     users.find {|user| user != current_user }
+  end
+
+  def broadcast_channel
+    NotificationsChannel::ONLINE.each do |user_id|
+      ActionCable.server.broadcast("notifcation_channel_#{user_id}", {
+        new_chat_link: "<a href='chat_rooms/#{id}' data-remote='true'> #{self.name} </a>",
+        chat_room_id: id
+      })
+    end
   end
 
   def subscribed?(user)
