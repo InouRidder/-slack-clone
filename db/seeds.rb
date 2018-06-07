@@ -12,3 +12,6 @@ User.create(email: "c@c.c", password: 'password', first_name: 'ollie', last_name
 
 
 puts "Bye"
+
+Online.destroy_all
+Online.create
