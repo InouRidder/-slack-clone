@@ -6,8 +6,10 @@
     <%= render 'messages/message', message: message %>
   <% end %>
 </div>
-<% if chat_room.subscribed?(current_user) %>
-  <%= render 'messages/form', chat_room: chat_room, message: message %>
-<% else %>
-  <%= link_to 'Join channel', subscribe_chat_room_path(chat_room), method: :post, class: "btn btn-primary", remote: true %>
-<% end %>
+<div class="form-bottom">
+  <% if chat_room.subscribed?(current_user) %>
+    <%= render 'messages/form', chat_room: chat_room, message: message %>
+  <% else %>
+    <%= link_to 'Join channel', subscribe_chat_room_path(chat_room), method: :post, class: "btn btn-primary", remote: true %>
+  <% end %>
+</div>
