@@ -2,7 +2,7 @@
 <% partner_id = chat_room.private_partner(current_user).try(:id) %>
   <div class="chat private-chat-title" data-chat-id="<%= chat_room.id %>" data-user-id="<%= partner_id %>">
     <div class="user-title">
-      <div class="user-status circle <%= NotificationsChannel::ONLINE.include?(partner_id) ? 'green' : 'grey' %>">
+      <div class="user-status circle <%= Online.users.include?(partner_id) ? 'green' : 'grey' %>">
       </div>
       <div class="chat-title">
         <%= link_to chat_room.private_chat_name(current_user.first_name), chat_room_path(chat_room), class: 'channel-link', remote: true %>
