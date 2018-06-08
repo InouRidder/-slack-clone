@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">All channels</h4>
       </div>
-      <div class="modal-body chat-list-modal">
+      <div class="modal-body chat-list-modal" id="channel-list-modal">
         <% all_chat_rooms.each do |room| %>
         <div class="chat-modal">
           <%= link_to room.name, chat_room_path(room), remote: true %>

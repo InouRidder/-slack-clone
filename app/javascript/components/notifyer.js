@@ -64,6 +64,13 @@ class Notifyer {
 
   receive(data) {
     // Add a notification if the list is included
+    console.log(data)
+    if (data.new_chat_link) {
+      console.log('hello')
+      Chat.updateChatList(data)
+      return;
+    }
+
     if (data.onlineUpdate) {
       // If its an online notification update, run the update only
       this.updateOnline(data.onlineUpdate);

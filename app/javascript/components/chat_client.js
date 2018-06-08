@@ -3,6 +3,12 @@ class Chat {
     this.activeRoom;
   }
 
+  updateChatList(data) {
+    console.log(data)
+    const channelList = document.getElementById('channel-list-modal');
+    channelList.insertAdjacentHTML('beforeend', data.new_chat_link);
+  }
+
   register(chatId, userId) {
     if (this.activeRoom !== undefined ) {
       App.cable.subscriptions.remove(this.activeRoom);
