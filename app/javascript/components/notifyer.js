@@ -36,6 +36,7 @@ class Notifyer {
   }
 
   notify(chat) {
+
     if (parseInt(chat.dataset.chatId) === Chat.activeRoom.id) {
       return
     };
@@ -64,9 +65,7 @@ class Notifyer {
 
   receive(data) {
     // Add a notification if the list is included
-    console.log(data)
     if (data.new_chat_link) {
-      console.log('hello')
       Chat.updateChatList(data)
       return;
     }
@@ -82,11 +81,8 @@ class Notifyer {
       // if (data.chat_room_id === App.active_room_id) return;
       this.notify(this.watchList[data.chat_room_id])
     } else {
-    // Append the chat to the DOM
-      const newChat = Chat.appendPrivateChat(data);
-      // if (data.chat_room_id === App.active_room_id) return;
-    // Notify the new Chat
-      this.notify(this.watchList[data.chat_room_id])
+      // Append the privateChat through another request cycle.
+      Chat.appendPrivateChat(data);
     }
   }
 }
