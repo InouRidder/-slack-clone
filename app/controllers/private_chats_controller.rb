@@ -5,7 +5,6 @@ class PrivateChatsController < ApplicationController
       @subscription.watch!
     else
       @chat_room = ChatRoom.create(private: true)
-      puts 'here'
       @chat_room.subscriptions.create(user: current_user)
       @chat_room.subscriptions.create(user_id: params[:user_id])
     end
