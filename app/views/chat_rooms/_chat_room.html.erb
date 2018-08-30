@@ -2,7 +2,7 @@
   <h1>#<%= chat_room.private ? chat_room.private_chat_name(current_user.first_name) : chat_room.name %></h1>
 </div>
 <div class="messages">
-  <% chat_room.messages.includes(:user).each do |message| %>
+  <% chat_room.messages.includes(:user).order_by(created_at: :asc).each do |message| %>
     <%= render 'messages/message', message: message %>
   <% end %>
 </div>
