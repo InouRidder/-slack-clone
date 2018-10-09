@@ -1,1 +1,3 @@
-Slack Clone to try out Action Cable functionality in rails 5.2
+Slack clone
+with Action Cable functionality in rails 5.2
+ES6 classes and Webpacker
